@@ -1,17 +1,18 @@
 class UnionFind:
     def __init__(self):
+        # genric union find structure
+        # need to initialize par and rank
         self.par = {}
         self.rank = {}
     
     def find(self, node: int) -> None:
-        p = self.par[node] 
-
-        while p != self.par[node]:
+        parent = self.par[node]
+        while parent != self.par[parent]:
             # path compression: make the grandparent the parent
-            self.par[p] == self.par[self.par[node]]
-            p = self.par[p]
+            self.par[parent] == self.par[self.par[parent]]
+            parent = self.par[parent]
 
-        return p
+        return parent
     
     def union(self, node1, node2) -> bool:
         parent1 = self.find(node1)
@@ -20,13 +21,13 @@ class UnionFind:
         if parent1 == parent2:
             return False
 
-        if self.rank[node1] > self.rank[node2]:
+        if self.rank[parent1] > self.rank[parent2]:
             # if node 1 is bigger, make it the parent
-            self.par[node2] = node1
-        elif self.rank[node1] < self.rank[node2]:
-            self.par[node1] = node2
+            self.par[parent2] = parent1
+        elif self.rank[parent1] < self.rank[parent2]:
+            self.par[parent1] = parent2
         else:
-            self.par[node1] = node2
+            self.par[parent1] = parent2
             self.rank[node2] += 1
         
         return True
